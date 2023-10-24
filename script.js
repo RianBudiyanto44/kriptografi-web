@@ -217,6 +217,7 @@ function caesarCipherEncrypt(s, k) {
     
     for (let i = 0; i < s.length; i++) {
         let charCode = s[i].charCodeAt();
+        //huruf kecil
         if (charCode > 96 && charCode < 123) {
             charCode += k % 26
             if (charCode > 122) {
@@ -225,7 +226,7 @@ function caesarCipherEncrypt(s, k) {
             charCode = (charCode - 97) + 123;
             }
         }
-    
+        // huruf besar
         if (charCode > 64 && charCode < 91) {
             charCode += k % 26
             if (charCode > 90) {
@@ -398,10 +399,11 @@ function railFenceDecrypt(cipher, key2) {
     let dir_down = false;
     let row = 0, col = 0;
     
+    // Membangun Matriks Rail dengan Pola Zigzag
     for (let i = 0; i < cipher.length; i++) {
         if (row == 0) dir_down = true; // Saat di baris teratas, perubahan arah ke bawah
-        if (row == key - 1) dir_down = false;
-        rail[row][col++] = '*';
+        if (row == key - 1) dir_down = false; 
+            rail[row][col++] = '*'; // Menandai lokasi pada matriks dengan karakter '*'
 
         dir_down ? row++ : row--; // Pindah ke baris berikutnya sesuai arah
     }
@@ -416,16 +418,17 @@ function railFenceDecrypt(cipher, key2) {
     
     let result = '';
     row = 0, col = 0;
+    
     // Membaca Teks Terdekripsi dari Matriks Rail
     for (let i = 0; i < cipher.length; i++) {
         if (row == 0) dir_down = true;
         if (row == key - 1) dir_down = false;
     
-        if (rail[row][col] != '*') result += rail[row][col++];
+        if (rail[row][col] != '*') 
+            result += rail[row][col++]; // Menambahkan karakter-karakter yang bukan '*' ke hasil
     
         dir_down ? row++ : row--;
     }
-    
     return result;
 }
 
